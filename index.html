@@ -4,23 +4,70 @@
         <title>pixel art</title>
         <meta charset="utf-8">
         <style>
-            /* #styleman */
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #f4f4f4;
+            }
 
+            #container {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+            }
+
+            h1 {
+                color: aqua;
+            }
+
+            #menu {
+                width: 500px;
+                height: 300px;
+                background-color: aqua;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                visibility: visible; /* Gjør startboksen usynlig */
+            }
+
+            #input {
+                display: flex;
+                flex-direction: column;
+                height: fit-content;
+                width: fit-content;
+            }
         </style>
-
     </head>
     <body>
-       <button>start</button>
-     <h1>git er dåg</h1>
-     <h2>git er bruh</h2>
-    <script>
-        let randomnr
-        let knapp1 = document.querySelector("button")
-        knapp1.addEventListener("click", number)
+        <div id="menu">
+            <button>start</button>
+        </div>
 
-        function number(){
-            knapp1.innerHTML = "Det fungerte!";
-        }
-    </script>
+        <div id="container">
+            <h1 id="input">boks2
+                <input type="number" max="9">
+            </h1>
+
+            <h1 id="randomnr">boks2</h1>
+
+            <h1>boks3</h1>
+        </div>
+
+        <script>
+            let knapp1 = document.querySelector("button");
+            knapp1.addEventListener("click", number);
+
+            function number(){
+                knapp1.innerHTML = "Det fungerte!";
+                document.getElementById("menu").style.visibility = "hidden"; // Gjør startboksen synlig
+            }
+        </script>
     </body>
 </html>
