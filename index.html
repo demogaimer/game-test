@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="no">
     <head>
-        <title>pixel art</title>
+        <title>Pixel Art</title>
         <meta charset="utf-8">
         <style>
             body {
@@ -11,6 +11,28 @@
                 justify-content: center;
                 align-items: center;
                 background-color: #f4f4f4;
+            }
+
+            .health-bar-container {
+                width: 100%;
+                max-width: 300px;
+                height: 30px;
+                background-color: #e0e0e0;
+                border: 2px solid #555;
+                border-radius: 5px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 10px;
+                visibility: hidden; /* Initially hidden */
+            }
+            
+            #health-bar {
+                height: 100%;
+                background-color: #4caf50; /* Green color for health */
+                width: 100%; /* Starts at 100% health */
+                border-radius: 5px;
+                transition: width 0.25s; /* Smooth transition for damage/heal effect */
             }
 
             #container {
@@ -34,7 +56,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                visibility: visible; /* Gjør startboksen usynlig */
+                visibility: visible; /* Initially visible */
             }
 
             #input {
@@ -46,28 +68,64 @@
         </style>
     </head>
     <body>
-        <div id="menu">
-            <button>start</button>
+
+        <!-- Health Bar Container -->
+        <div class="health-bar-container" id="health-bar-container">
+            <div id="health-bar"></div>
         </div>
 
+        <!-- Start Menu -->
+        <div id="menu">
+            <button>Start</button>
+        </div>
+
+        <!-- Main Content -->
         <div id="container">
-            <h1 id="input">boks2
+            <h1 id="input">Boks2
                 <input type="number" max="9">
             </h1>
 
-            <h1 id="randomnr">boks2</h1>
+            <h1 id="randomnr">Boks2</h1>
 
-            <h1>boks3</h1>
+            <h1>= 10</h1>
         </div>
 
         <script>
-            let knapp1 = document.querySelector("button");
-            knapp1.addEventListener("click", number);
+            let health = 100; // Start with 100% health
 
-            function number(){
-                knapp1.innerHTML = "Det fungerte!";
-                document.getElementById("menu").style.visibility = "hidden"; // Gjør startboksen synlig
+            // Function to decrease health
+            function takeDamage(damage) {
+                health = Math.max(0, health - damage); // Ensure health doesn't go below 0
+                updateHealthBar();
             }
+
+            // Function to increase health
+            function heal(amount) {
+                health = Math.min(100, health + amount); // Ensure health doesn't go above 100
+                updateHealthBar();
+            }
+
+            // Update the health bar visually
+            function updateHealthBar() {
+                const healthBar = document.getElementById('health-bar');
+                healthBar.style.width = health + '%';
+
+                if (health > 50) {
+                    healthBar.style.backgroundColor = '#4caf50'; // Green
+                } else if (health > 20) {
+                    healthBar.style.backgroundColor = '#ff9800'; // Orange
+                } else {
+                    healthBar.style.backgroundColor = '#f44336'; // Red
+                }
+            }
+
+            // Button functionality for starting
+            let knapp1 = document.querySelector("button");
+            knapp1.addEventListener("click", function() {
+                knapp1.innerHTML = "Det fungerte!";
+                document.getElementById("health-bar-container").style.visibility = "visible"; // Show health bar
+                document.getElementById("menu").style.visibility = "hidden"; // Hide start menu
+            });
         </script>
     </body>
 </html>
