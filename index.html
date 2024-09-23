@@ -1,131 +1,181 @@
 <!DOCTYPE html>
 <html lang="no">
-    <head>
-        <title>Pixel Art</title>
-        <meta charset="utf-8">
-        <style>
-            body {
-                margin: 0;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: #f4f4f4;
-            }
+<head>
+    <title>Pixel Art</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
 
-            .health-bar-container {
-                width: 100%;
-                max-width: 300px;
-                height: 30px;
-                background-color: #e0e0e0;
-                border: 2px solid #555;
-                border-radius: 5px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                margin: 10px;
-                visibility: hidden; /* Initially hidden */
-            }
+        .health-bar-container {
+            width: 100%;
+            max-width: 300px;
+            height: 30px;
+            background-color: #e0e0e0;
+            border: 2px solid #555;
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 10px;
+            visibility: hidden; /* Skjult som standard */
+        }
+        
+        #health-bar {
+            height: 100%;
+            background-color: #4caf50; /* Grønn farge for helse */
+            width: 100%; /* Starter med 100 helse */
+            border-radius: 5px;
+            transition: width 0.25s; /* Jevn overgang for helseendring */
+        }
+
+        #container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        h1 {
+            color: aqua;
+        }
+
+        #menu {
+            width: 500px;
+            height: 300px;
+            background-color: aqua;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            visibility: visible; /* Synlig som standard */
+        }
+
+        #input {
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            width: fit-content;
+        }
+
+        #boksene {
+            visibility: hidden;
+            position: relative;
+            top: 200px;
+            left: -200px;
+            border-radius: 25px;
+        }
+
+        #decreaseBoks, #increaseBoks, #sjekkSvar {
+            background-color: green;
+            border-radius: 12px;
+            border: solid black 5px;
+        }
+        
+        #staticfarge, #randomnr {
+            color: black;
+        }
+
+        #input{
+            visibility: hidden;
+            width: 30px;
+            height: 40px;
             
-            #health-bar {
-                height: 100%;
-                background-color: #4caf50; /* Green color for health */
-                width: 100%; /* Starts at 100% health */
-                border-radius: 5px;
-                transition: width 0.25s; /* Smooth transition for damage/heal effect */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Helsebarbeholder -->
+    <div class="health-bar-container" id="health-bar-container">
+        <div id="health-bar"></div>
+    </div>
+
+    <!-- Startmeny -->
+    <div id="menu">
+        <button>Start</button>
+    </div>
+
+    <!-- Hovedinnhold -->
+    <div id="container">
+        <h1 id="input">0</h1>
+        <h1 id="randomnr">Boks_random</h1>
+        <h1 id="staticfarge">= 10</h1>
+    </div>
+
+    <div id="boksene">
+        <button id="increaseBoks">Increase</button>
+        <button id="decreaseBoks">Decrease</button>
+        <button id="sjekkSvar">Sjekk Svar</button>
+    </div>
+
+    <script>
+        //elementvelgere
+        let increaseKnapp = document.getElementById("increaseBoks");
+        let decreaseKnapp = document.getElementById("decreaseBoks");
+        let sjekksvarKnapp = document.getElementById("sjekkSvar");
+        let inputNumberVariable = document.getElementById("input");
+
+        // funksjon for å øke tallet i input
+        function increaseNumber() {
+            let currentVerdi = Number(inputNumberVariable.innerHTML);
+            if (currentVerdi < 9) { // maks 9, kan ikke økes etter tallet 9.
+                inputNumberVariable.innerHTML = currentVerdi + 1; // øøk tallet med 1
             }
+        }
 
-            #container {
-                display: flex;
-                flex-direction: row;
-                gap: 20px;
+        let health = 100; // start med 100 health
+
+        // funksjon for å decreae health 
+        function takeDamage(damage) {
+            health = Math.max(0, health - damage); // Sørg for at helsen ikke går under 0
+            updateHealthBar();
+        }
+
+        // funksjon for å heale
+        function heal(amount) {
+            health = Math.min(100, health + amount); // Sørg for at helsen ikke overstiger 100
+            updateHealthBar();
+        }
+
+        // update healthbaren
+        function updateHealthBar() {
+            const healthBar = document.getElementById('health-bar');
+            healthBar.style.width = health + '%';
+
+            if (health > 50) {
+                healthBar.style.backgroundColor = '#4caf50'; // Grønn
+            } else if (health > 20) {
+                healthBar.style.backgroundColor = '#ff9800'; // Oransje
+            } else {
+                healthBar.style.backgroundColor = '#f44336'; // Rød
             }
+        }
 
-            h1 {
-                color: aqua;
-            }
+        // knapp functionality for å starte, OG gjemme/reveale elementer som skal/ikke skal være på den neste skjermeen.
+        let knapp1 = document.querySelector("button");
+        knapp1.addEventListener("click", function() {
+            knapp1.innerHTML = "Det fungerte!";
+            document.getElementById("health-bar-container").style.visibility = "visible"; // Vis helsebar
+            document.getElementById("menu").style.visibility = "hidden"; // Skjul startmeny
+            document.getElementById("boksene").style.visibility = "visible"; // Vis boksene
+            document.getElementById("input").style.visibility = "visible"; // Vis boksene
+        });
 
-            #menu {
-                width: 500px;
-                height: 300px;
-                background-color: aqua;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                visibility: visible; /* Initially visible */
-            }
+        // Event listener for øke-knappen
+        increaseKnapp.addEventListener("click", increaseNumber);
 
-            #input {
-                display: flex;
-                flex-direction: column;
-                height: fit-content;
-                width: fit-content;
-            }
-        </style>
-    </head>
-    <body>
-
-        <!-- Health Bar Container -->
-        <div class="health-bar-container" id="health-bar-container">
-            <div id="health-bar"></div>
-        </div>
-
-        <!-- Start Menu -->
-        <div id="menu">
-            <button>Start</button>
-        </div>
-
-        <!-- Main Content -->
-        <div id="container">
-            <h1 id="input">Boks2
-                <input type="number" max="9">
-            </h1>
-
-            <h1 id="randomnr">Boks2</h1>
-
-            <h1>= 10</h1>
-        </div>
-
-        <script>
-            let health = 100; // Start with 100% health
-
-            // Function to decrease health
-            function takeDamage(damage) {
-                health = Math.max(0, health - damage); // Ensure health doesn't go below 0
-                updateHealthBar();
-            }
-
-            // Function to increase health
-            function heal(amount) {
-                health = Math.min(100, health + amount); // Ensure health doesn't go above 100
-                updateHealthBar();
-            }
-
-            // Update the health bar visually
-            function updateHealthBar() {
-                const healthBar = document.getElementById('health-bar');
-                healthBar.style.width = health + '%';
-
-                if (health > 50) {
-                    healthBar.style.backgroundColor = '#4caf50'; // Green
-                } else if (health > 20) {
-                    healthBar.style.backgroundColor = '#ff9800'; // Orange
-                } else {
-                    healthBar.style.backgroundColor = '#f44336'; // Red
-                }
-            }
-
-            // Button functionality for starting
-            let knapp1 = document.querySelector("button");
-            knapp1.addEventListener("click", function() {
-                knapp1.innerHTML = "Det fungerte!";
-                document.getElementById("health-bar-container").style.visibility = "visible"; // Show health bar
-                document.getElementById("menu").style.visibility = "hidden"; // Hide start menu
-            });
-        </script>
-    </body>
+        // Logg et tilfeldig tall mellom 0 og 10
+        console.log(Math.floor(Math.random() * 10));
+    </script>
+</body>
 </html>
