@@ -43,13 +43,14 @@
         }
 
         h1{
-            color: aqua;
+            color: rgb(0, 182, 64);
         }
 
         #menu{
             width: 500px;
             height: 300px;
-            background-color: aqua;
+            background-color: rgb(255, 89, 0);
+            border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -72,7 +73,6 @@
             position: relative;
             top: 200px;
             border-radius: 25px;
-            
         }
 
         #decreaseBoks, #increaseBoks, #sjekkSvar{ /* CSS for de tre knappenee */
@@ -90,8 +90,12 @@
             visibility: hidden;
             width: 30px;
             height: 40px;
-            
-            
+        }
+
+        #stilleInnPlussTegn{
+            position: relative;
+            left: -5px;
+            bottom: -4px;
         }
 
     </style>
@@ -111,8 +115,10 @@
     <!-- Hovedinnhold -->
     <div id="container">
         <h1 id="input">0</h1>
+        <h2 id="stilleInnPlussTegn">+</h2>
         <h1 id="randomnr">Boks_random</h1>
         <h1 id="staticfarge_og_nummer">= 10</h1>
+        
     </div>
 
     <div id="boksene">
@@ -130,7 +136,6 @@
         let randomNumber = generateRandomNumber();
         document.getElementById("randomnr").innerHTML = randomNumber;
     
-
         // funksjon for å øke tallet i input
         function increaseNumber() {
             let currentVerdi = Number(inputNumberVariable.innerHTML);
@@ -139,7 +144,13 @@
             }
         }
 
-        let tilfe
+        // funksjon for å reduser tallet i input
+        function decreaseNumber() {
+            let currentVerdi2 = Number(inputNumberVariable.innerHTML);
+            if (currentVerdi2 > 0) { // maks 0, kan ikke reduseres under tallet 0.
+                inputNumberVariable.innerHTML = currentVerdi2 - 1; // reduser tallet med 1.
+            }
+        }
 
         let health = 100; // start med 100 health
 
@@ -184,15 +195,15 @@
             document.getElementById("container").style.visibility = "visible"; // Vis de andre boksene
         });
 
-        //  eventlistener for increase-knapppen.
+        // eventlistener for increase-knappen.
         increaseKnapp.addEventListener("click", increaseNumber);
+
+        // eventlistener for decrease-knappen.
+        decreaseKnapp.addEventListener("click", decreaseNumber);
 
         // logger tilfeldig tall mellom 0 og 10.
         console.log("Random nummer foreløpig -> ", Math.floor(Math.random() * 10));
         
-        
-
-
     </script>
 </body>
 </html>
