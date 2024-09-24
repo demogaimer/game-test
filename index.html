@@ -4,7 +4,7 @@
     <title>Pixel Art</title>
     <meta charset="utf-8">
     <style>
-        body {
+        body{
             margin: 0;
             height: 100vh;
             display: flex;
@@ -13,7 +13,7 @@
             background-color: #f4f4f4;
         }
 
-        .health-bar-container {
+        .health-bar-container{
             width: 100%;
             max-width: 300px;
             height: 30px;
@@ -27,25 +27,26 @@
             visibility: hidden; /* Skjult som standard */
         }
         
-        #health-bar {
+        #health-bar{
             height: 100%;
-            background-color: #4caf50; /* Grønn farge for helse */
-            width: 100%; /* Starter med 100 helse */
+            background-color: #4caf50; /* helsen får grønn farge */
+            width: 100%; /* start med 100 helse */
             border-radius: 5px;
-            transition: width 0.25s; /* Jevn overgang for helseendring */
         }
 
-        #container {
+        #container{
             display: flex;
             flex-direction: row;
             gap: 20px;
+            position: absolute;
+            visibility: hidden;
         }
 
-        h1 {
+        h1{
             color: aqua;
         }
 
-        #menu {
+        #menu{
             width: 500px;
             height: 300px;
             background-color: aqua;
@@ -59,28 +60,29 @@
             visibility: visible; /* Synlig som standard */
         }
 
-        #input {
+        #input{
             display: flex;
             flex-direction: column;
             height: fit-content;
             width: fit-content;
         }
 
-        #boksene {
+        #boksene{
             visibility: hidden;
             position: relative;
             top: 200px;
-            left: -200px;
             border-radius: 25px;
+            
         }
 
-        #decreaseBoks, #increaseBoks, #sjekkSvar {
+        #decreaseBoks, #increaseBoks, #sjekkSvar{ /* CSS for de tre knappenee */
             background-color: green;
-            border-radius: 12px;
+            border-radius: 8px;
             border: solid black 5px;
+            height: 40px;
         }
         
-        #staticfarge, #randomnr {
+        #staticfarge_og_nummer, #randomnr{
             color: black;
         }
 
@@ -88,6 +90,7 @@
             visibility: hidden;
             width: 30px;
             height: 40px;
+            
             
         }
 
@@ -109,7 +112,7 @@
     <div id="container">
         <h1 id="input">0</h1>
         <h1 id="randomnr">Boks_random</h1>
-        <h1 id="staticfarge">= 10</h1>
+        <h1 id="staticfarge_og_nummer">= 10</h1>
     </div>
 
     <div id="boksene">
@@ -124,6 +127,9 @@
         let decreaseKnapp = document.getElementById("decreaseBoks");
         let sjekksvarKnapp = document.getElementById("sjekkSvar");
         let inputNumberVariable = document.getElementById("input");
+        let randomNumber = generateRandomNumber();
+        document.getElementById("randomnr").innerHTML = randomNumber;
+    
 
         // funksjon for å øke tallet i input
         function increaseNumber() {
@@ -133,12 +139,18 @@
             }
         }
 
+        let tilfe
+
         let health = 100; // start med 100 health
 
         // funksjon for å decreae health 
         function takeDamage(damage) {
             health = Math.max(0, health - damage); // Sørg for at helsen ikke går under 0
             updateHealthBar();
+        }
+
+        function generateRandomNumber(){
+            return Math.floor(Math.random() * 9) + 1; // Tilfeldig nummer.
         }
 
         // funksjon for å heale
@@ -169,13 +181,18 @@
             document.getElementById("menu").style.visibility = "hidden"; // Skjul startmeny
             document.getElementById("boksene").style.visibility = "visible"; // Vis boksene
             document.getElementById("input").style.visibility = "visible"; // Vis boksene
+            document.getElementById("container").style.visibility = "visible"; // Vis de andre boksene
         });
 
-        // Event listener for øke-knappen
+        //  eventlistener for increase-knapppen.
         increaseKnapp.addEventListener("click", increaseNumber);
 
-        // Logg et tilfeldig tall mellom 0 og 10
-        console.log(Math.floor(Math.random() * 10));
+        // logger tilfeldig tall mellom 0 og 10.
+        console.log("Random nummer foreløpig -> ", Math.floor(Math.random() * 10));
+        
+        
+
+
     </script>
 </body>
 </html>
