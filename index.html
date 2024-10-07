@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-    <title>Pixel Art</title>
+    <title>Spill</title>
     <meta charset="utf-8">
     <style>
         body{
@@ -11,27 +11,6 @@
             justify-content: center;
             align-items: center;
             background-color: #f4f4f4;
-        }
-
-        .health-bar-container{
-            width: 100%;
-            max-width: 300px;
-            height: 30px;
-            background-color: #e0e0e0;
-            border: 2px solid #555;
-            border-radius: 5px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 10px;
-            visibility: hidden; /* Skjult som standard */
-        }
-        
-        #health-bar{
-            height: 100%;
-            background-color: #4caf50; /* helsen får grønn farge */
-            width: 100%; /* start med 100 helse */
-            border-radius: 5px;
         }
 
         #container{
@@ -72,6 +51,7 @@
             visibility: hidden;
             position: relative;
             top: 200px;
+            left: -75px;
             border-radius: 25px;
         }
 
@@ -98,13 +78,33 @@
             bottom: -4px;
         }
 
+        #scoreElement{
+            position: relative;
+            bottom: -20px;
+            right: -115px;
+        }
+
+        #healthDiv{
+            position: relative;
+            top: -360px;
+            left: -450px;
+        }
+
+        #healthDivFiks{
+            display: flex;
+            gap: 30px;
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Helsebarbeholder -->
-    <div class="health-bar-container" id="health-bar-container">
-        <div id="health-bar"></div>
+    <div id="healthDiv">
+        <div id="healthDivFiks">
+            <h1>HELSE:   </h1>
+            <h1 id="healthElement">3</h1>
+        </div>
+        
     </div>
 
     <!-- Startmeny -->
@@ -125,85 +125,86 @@
         <button id="increaseBoks">Increase</button>
         <button id="decreaseBoks">Decrease</button>
         <button id="sjekkSvar">Sjekk Svar</button>
+        <p id="scoreElement">0</p>
     </div>
 
     <script>
+        //Variabler
+        let scoreElement = 0;  //   (Scoren som endrer seg om brukeren tar riktig, resettes når spillet er over.)
+        
         //elementvelgere
-        let increaseKnapp = document.getElementById("increaseBoks");
-        let decreaseKnapp = document.getElementById("decreaseBoks");
+        let increaseknapp = document.getElementById("increaseBoks");
+        let decreaseknapp = document.getElementById("decreaseBoks");
         let sjekksvarKnapp = document.getElementById("sjekkSvar");
-        let inputNumberVariable = document.getElementById("input");
+        let inputnumber = document.getElementById("input");
+        let foreløpigScore = document.getElementById("scoreElement");
         let randomNumber = generateRandomNumber();
+        let healthElementChanger = document.getElementById("healthElement");
+
+        //endrer tallet i midten på skjermen, til det tilfeldige talllet som ble generert.
         document.getElementById("randomnr").innerHTML = randomNumber;
     
         // funksjon for å øke tallet i input
-        function increaseNumber() {
-            let currentVerdi = Number(inputNumberVariable.innerHTML);
-            if (currentVerdi < 9) { // maks 9, kan ikke økes etter tallet 9.
-                inputNumberVariable.innerHTML = currentVerdi + 1; // øøk tallet med 1
+        function increasenumber() {
+            let currentVerdi = Number(inputnumber.innerHTML);
+            if (currentVerdi < 9) { // maks 9 tall
+                inputnumber.innerHTML = currentVerdi + 1; // øøk tallet med 1
             }
         }
 
         // funksjon for å reduser tallet i input
-        function decreaseNumber() {
-            let currentVerdi2 = Number(inputNumberVariable.innerHTML);
+        function decreasenumber() {
+            let currentVerdi2 = Number(inputnumber.innerHTML);
             if (currentVerdi2 > 0) { // maks 0, kan ikke reduseres under tallet 0.
-                inputNumberVariable.innerHTML = currentVerdi2 - 1; // reduser tallet med 1.
+                inputnumber.innerHTML = currentVerdi2 - 1; // reduser tallet med 1.
             }
         }
 
-        let health = 100; // start med 100 health
-
-        // funksjon for å decreae health 
-        function takeDamage(damage) {
-            health = Math.max(0, health - damage); // Sørg for at helsen ikke går under 0
-            updateHealthBar();
-        }
+        
 
         function generateRandomNumber(){
-            return Math.floor(Math.random() * 9) + 1; // Tilfeldig nummer.
+            return Math.floor(Math.random() * 9) + 1; // random nummer.
         }
 
-        // funksjon for å heale
-        function heal(amount) {
-            health = Math.min(100, health + amount); // Sørg for at helsen ikke overstiger 100
-            updateHealthBar();
-        }
 
-        // update healthbaren
-        function updateHealthBar() {
-            const healthBar = document.getElementById('health-bar');
-            healthBar.style.width = health + '%';
-
-            if (health > 50) {
-                healthBar.style.backgroundColor = '#4caf50'; // Grønn
-            } else if (health > 20) {
-                healthBar.style.backgroundColor = '#ff9800'; // Oransje
-            } else {
-                healthBar.style.backgroundColor = '#f44336'; // Rød
-            }
-        }
-
+        
         // knapp functionality for å starte, OG gjemme/reveale elementer som skal/ikke skal være på den neste skjermeen.
         let knapp1 = document.querySelector("button");
         knapp1.addEventListener("click", function() {
-            knapp1.innerHTML = "Det fungerte!";
-            document.getElementById("health-bar-container").style.visibility = "visible"; // Vis helsebar
-            document.getElementById("menu").style.visibility = "hidden"; // Skjul startmeny
-            document.getElementById("boksene").style.visibility = "visible"; // Vis boksene
-            document.getElementById("input").style.visibility = "visible"; // Vis boksene
-            document.getElementById("container").style.visibility = "visible"; // Vis de andre boksene
+            document.getElementById("menu").style.visibility = "hidden"; // skjul startmeny når man klikker "start.".
+            document.getElementById("boksene").style.visibility = "visible"; // vvis boksene
+            document.getElementById("input").style.visibility = "visible"; // vis boksene
+            document.getElementById("container").style.visibility = "visible"; // viser de andre boksene
         });
 
         // eventlistener for increase-knappen.
-        increaseKnapp.addEventListener("click", increaseNumber);
+        increaseknapp.addEventListener("click", increasenumber);
 
         // eventlistener for decrease-knappen.
-        decreaseKnapp.addEventListener("click", decreaseNumber);
+        decreaseknapp.addEventListener("click", decreasenumber);
 
-        // logger tilfeldig tall mellom 0 og 10.
-        console.log("Random nummer foreløpig -> ", Math.floor(Math.random() * 10));
-        
+        //   fjernet kode som ikkke gjorde noe . 
+
+        // sjekker om inputen til brukeren er riktig / samsvarer med det tilfeldige tallet, somm skal sammen bli 10.
+        // sjekker om inputen til brukeren er riktig / samsvarer med det tilfeldige tallet, somm skal sammen bli 10.
+        function sjekkSvarFunksjon(){
+            let brukerensEndeligeInput = Number(inputnumber.innerHTML); // putter tallet som brukeren har økt til, i en variabel.
+            if(brukerensEndeligeInput + randomNumber == 10){
+                alert("Riktig!");
+                //  genererer nytt nummer, om brukeren tok riktig (etter å ha klikket "OK" på alerten).
+                randomNumber = generateRandomNumber();
+                document.getElementById("randomnr").innerHTML = randomNumber;
+                // legger til 1 på scoren
+                foreløpigScore.innerHTML = ++scoreElement;
+            }else{
+                alert("Feil!");
+                healthElementChanger.innerHTML = --healthElementChanger.innerHTML; // oppdatert linje
+            }
+        }
+
+
+        // eventlistener for funksjonen rett ovenfor
+        sjekksvarKnapp.addEventListener("click", sjekkSvarFunksjon);
     </script>
 </body>
 </html>
