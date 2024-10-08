@@ -51,7 +51,7 @@
             visibility: hidden;
             position: relative;
             top: 200px;
-            left: -75px;
+            right: -170px;
             border-radius: 25px;
         }
 
@@ -86,13 +86,42 @@
 
         #healthDiv{
             position: relative;
-            top: -360px;
-            left: -450px;
+            top: -300px;
+            left: -190px;
         }
 
         #healthDivFiks{
             display: flex;
             gap: 30px;
+        }
+
+        #hovedBoks{
+            position: relative;
+            background-color: rgb(50, 49, 49);
+            height: 400px;
+            width: 500px;
+            border-radius: 20px;
+            left: -200px;
+
+        }
+
+        #storTekst{
+            position: relative;
+            color: rgb(202, 30, 30);
+            font-size: 40px;
+            margin: 55px;
+            bottom: -110px;
+        }
+
+        #litenTekst{
+            position: relative;
+            color: rgb(191, 189, 189);
+            right: -140px;
+            bottom: -100px;
+        }
+
+        #sisteScoreResultat{
+            color: rgb(0, 182, 64);
         }
 
     </style>
@@ -128,11 +157,24 @@
         <p id="scoreElement">0</p>
     </div>
 
+    <!--  Game over skjerm, bare synlig når spillet er slutt (helse er på 0).  -->
+      <div id="gameoverDiv">
+        <div id="hovedBoks">
+            <h1 id="storTekst">SPILLET ER OVER</h1>
+            <h1 id="litenTekst">Du fikk <span id="sisteScoreResultat"></span> poeng!</h1>
+        </div>
+      </div>
+
     <script>
+        //Skjuler gameover skjermen, og health displayet fra starten av.
+        document.getElementById("hovedBoks").style.visibility = "hidden";
+        document.getElementById("healthDiv").style.visibility = "hidden";
+
         //Variabler
         let scoreElement = 0;  //   (Scoren som endrer seg om brukeren tar riktig, resettes når spillet er over.)
         
         //elementvelgere
+        let sisteScore = document.getElementById("sisteScoreResultat");
         let increaseknapp = document.getElementById("increaseBoks");
         let decreaseknapp = document.getElementById("decreaseBoks");
         let sjekksvarKnapp = document.getElementById("sjekkSvar");
@@ -175,6 +217,7 @@
             document.getElementById("boksene").style.visibility = "visible"; // vvis boksene
             document.getElementById("input").style.visibility = "visible"; // vis boksene
             document.getElementById("container").style.visibility = "visible"; // viser de andre boksene
+            document.getElementById("healthDiv").style.visibility = "visible"; // viser health display
         });
 
         // eventlistener for increase-knappen.
@@ -186,11 +229,10 @@
         //   fjernet kode som ikkke gjorde noe . 
 
         // sjekker om inputen til brukeren er riktig / samsvarer med det tilfeldige tallet, somm skal sammen bli 10.
-        // sjekker om inputen til brukeren er riktig / samsvarer med det tilfeldige tallet, somm skal sammen bli 10.
         function sjekkSvarFunksjon(){
             let brukerensEndeligeInput = Number(inputnumber.innerHTML); // putter tallet som brukeren har økt til, i en variabel.
             if(brukerensEndeligeInput + randomNumber == 10){
-                alert("Riktig!");
+                alert("Riktig!  +1 Poeng");
                 //  genererer nytt nummer, om brukeren tok riktig (etter å ha klikket "OK" på alerten).
                 randomNumber = generateRandomNumber();
                 document.getElementById("randomnr").innerHTML = randomNumber;
@@ -199,6 +241,17 @@
             }else{
                 alert("Feil!");
                 healthElementChanger.innerHTML = --healthElementChanger.innerHTML; // oppdatert linje
+                if (Number(healthElementChanger.innerHTML) === 0){
+                    console.log("GAME OVER (nå skal gameover-skjermen poppe opp)")
+                    document.getElementById("boksene").style.visibility = "hidden"; // skjuler boksene
+                    document.getElementById("input").style.visibility = "hidden"; // skjul knapppene
+                    document.getElementById("container").style.visibility = "hidden"; // skjuler de andre boksene
+                    document.getElementById("healthDiv").style.visibility = "hidden"; // skal også skjule diven i hjørnet, altså Helsen.
+                    document.getElementById("hovedBoks").style.visibility = "visible";
+                    
+                    sisteScore.innerHTML = scoreElement;
+                }
+
             }
         }
 
