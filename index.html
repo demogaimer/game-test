@@ -276,12 +276,13 @@
                 healthElementChanger.innerHTML = --healthElementChanger.innerHTML; // oppdatert linje
                 if (Number(healthElementChanger.innerHTML) === 0){
                     console.log("GAME OVER (nå skal gameover-skjermen poppe opp)")
-                    document.getElementById("boksene").style.visibility = "hidden"; // skjuler boksene
-                    document.getElementById("input").style.visibility = "hidden"; // skjul knapppene
-                    document.getElementById("container").style.visibility = "hidden"; // skjuler de andre boksene
-                    document.getElementById("healthDiv").style.visibility = "hidden"; // skal også skjule diven i hjørnet, altså Helsen.
+                    //    skjuler diver/ viser diver når spilleren har mistet alle liv (sender spiller til deathscreen, + viser en "Prøv igjen"-knapp.).
+                    document.getElementById("boksene").style.visibility = "hidden"; 
+                    document.getElementById("input").style.visibility = "hidden"; 
+                    document.getElementById("container").style.visibility = "hidden";
+                    document.getElementById("healthDiv").style.visibility = "hidden"; 
                     document.getElementById("hovedBoks").style.visibility = "visible";
-                    
+                    //
                     sisteScore.innerHTML = scoreElement;
                 }
 
