@@ -235,7 +235,7 @@
         }
 
         
-        // Det tilfeldige nummerret
+        // Det tilfeldige nummerret som generereres
         function generateRandomNumber(){
             return Math.floor(Math.random() * 9) + 1; // random nummer.
         }
@@ -245,11 +245,12 @@
         // knapp functionality for å starte, OG gjemme/reveale elementer som skal/ikke skal være på den neste skjermeen.
         let knapp1 = document.querySelector("button");
         knapp1.addEventListener("click", function() {
-            document.getElementById("menu").style.visibility = "hidden"; // skjul startmeny når man klikker "start.".
-            document.getElementById("boksene").style.visibility = "visible"; // vvis boksene
-            document.getElementById("input").style.visibility = "visible"; // vis boksene
-            document.getElementById("container").style.visibility = "visible"; // viser de andre boksene
-            document.getElementById("healthDiv").style.visibility = "visible"; // viser health display
+            //    skjuler diver/ viser diver når startknappen trykkes (på hovedmenyen).
+            document.getElementById("menu").style.visibility = "hidden"; 
+            document.getElementById("boksene").style.visibility = "visible"; 
+            document.getElementById("input").style.visibility = "visible";
+            document.getElementById("container").style.visibility = "visible"; 
+            document.getElementById("healthDiv").style.visibility = "visible"; 
         });
 
         // eventlistener for increase-knappen.
