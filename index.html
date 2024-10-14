@@ -183,8 +183,8 @@
     </div>
     <!-- De tre knappene -->
     <div id="boksene">
-        <button id="increaseBoks">Increase</button>
-        <button id="decreaseBoks">Decrease</button>
+        <button id="increaseBoks">+</button>
+        <button id="decreaseBoks">-</button>
         <button id="sjekkSvar">Sjekk Svar</button>
         <p id="scoreElement">0</p>
     </div>
@@ -272,8 +272,10 @@
                 document.getElementById("randomnr").innerHTML = randomNumber;
                 // legger til 1 på scoren
                 foreløpigScore.innerHTML = ++scoreElement;
+                console.log("Riktig, 1 poeng legges til");
             }else{
                 alert("Feil! -1 Liv");
+                console.log("Feil, 1 liv trekkes");
                 healthElementChanger.innerHTML = --healthElementChanger.innerHTML; // oppdatert linje
                 if (Number(healthElementChanger.innerHTML) === 0){
                     console.log("GAME OVER (nå skal gameover-skjermen poppe opp)")
